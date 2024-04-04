@@ -1,5 +1,29 @@
-<form method="post">
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Bus</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+{% block content %}
+<!-- Back to List Link -->
+<a href="{% url 'all_buses' %}" class="btn btn-primary">Back to All Buses</a>
+
+<h2>Update Bus</h2>
+
+<!-- Update Bus Form -->
+<form method="post" class="mt-4">
     {% csrf_token %}
-    <p>Are you sure you want to delete "{{ bus.name }}"?</p>
-    <button type="submit">Confirm</button>
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Update Bus</button>
 </form>
+{% endblock %}
+
+<!-- Add Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

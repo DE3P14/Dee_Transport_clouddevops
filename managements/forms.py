@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import UserProfile, Ticket, CITIES_GROUPS, CITIES, Bus, WAY, METHODS
+from django.forms.widgets import DateInput, TimeInput
 
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
@@ -60,3 +61,7 @@ class BusForm(forms.ModelForm):
     class Meta:
         model = Bus
         fields = '__all__'
+        widgets = {
+            'departure_time': DateInput(attrs={'type': 'date'}),
+            'depart_time': TimeInput(attrs={'type': 'time'}),
+        }

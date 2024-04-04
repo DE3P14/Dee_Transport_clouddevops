@@ -23,7 +23,8 @@ def view_all_buses(request):
         form = BusForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('view_all_buses')  # Ensure this is the correct name for the URL
+            # Redirect to prevent form resubmission
+            return redirect('view_all_buses')
     else:
         form = BusForm()
     all_buses = Bus.objects.all()
