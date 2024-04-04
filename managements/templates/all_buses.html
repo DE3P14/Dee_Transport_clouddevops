@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Buses</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+{% block content %}
+<!-- Create Bus Form -->
+<form method="post" action="{% url 'create_bus' %}">
+  {% csrf_token %}
+  <h2>Add New Bus</h2>
+  {{ form.as_p }}
+  <button type="submit">Add Bus</button>
+</form>
+
+<hr>
+
+<h2>All Buses</h2>
+<ul>
+  {% for bus in buses %}
+    <li>
+      <h3>{{ bus.name }}</h3>
+      <p>Departure City: {{ bus.departure_city }}</p>
+      <p>Arrival City: {{ bus.arrival_city }}</p>
+      <p>Departure Time: {{ bus.departure_time|date:"D, d M Y H:i" }}</p>
+      <p>Is Available: {{ bus.is_available }}</p>
+
+      <!-- Update Bus Link -->
+      <a href="{% url 'update_bus' bus.id %}">Edit</a>
+
+      <!-- Delete Bus Form -->
+      <form action="{% url 'delete_bus' bus.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+      </form>
+    </li>
+  {% empty %}
+    <li>No buses available.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
+</body>
+</html>

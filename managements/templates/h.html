@@ -1,0 +1,170 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCTransportation</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCTransporation</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/1hb6b8g5g0n3lOLo4y4gx5nU4w2f4Z+d5GDK6bj" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.rtl.min.css.map">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.rtl.min.css.map">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/1hb6b8g5g0n3lOLo4y4gx5nU4w2f4Z+d5GDK6bj" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+    <style>
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background: #67c6d7;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* .logo {
+    margin: 0;
+} */
+
+.top-nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    margin: 0;
+}
+
+.top-nav li {
+    margin-left: 20px;
+}
+
+.top-nav a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.top-nav a:hover {
+    color: #ffcc00;
+}
+
+#menu-icon {
+    display: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .top-nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        background: #333;
+    }
+
+    .top-nav ul.active {
+        display: flex;
+    }
+
+    .top-nav li {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    #menu-icon {
+        display: block;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1 class="logo">DCTransportation</h1>
+    <nav class="top-nav">
+        <div id="menu-icon" onclick="toggleMenu()">☰</div>
+        <ul id="menu">
+            <li><a href="#" onclick="closeMenu()">Home</a></li>
+            <li><a href="{% url 'search_form' %}" onclick="closeMenu()">Book Ticket</a></li>
+            <!-- <li><a href="#" onclick="closeMenu()">Update Details</a></li>
+            <li><a href="#" onclick="closeMenu()">Routes</a></li>
+            <li><a href="#" onclick="closeMenu()">Help</a></li>
+            <li><a href="#" onclick="closeMenu()">Profile</a></li>
+            <li><a href="#" onclick="closeMenu()">Settings</a></li> -->
+            <li><a href="{% url 'login' %}" onclick="closeMenu()">Login</a></li>
+            <li><a href="{% url 'logout' %}" onclick="closeMenu()">Sign Out</a></li>
+            <!-- <li><a href="#" onclick="closeMenu()">Feedback</a></li>
+            <li><a href="#" onclick="closeMenu()">About us</a></li> -->
+        </ul>
+    </nav>
+</header>
+<!-- main section -->
+
+<main>
+    <main>
+        <div class="container">
+            <img class="d-block w-100" src="{% static 'images/bus1.png' %}" alt="Wallpaper">
+        </div>
+    </main>
+</main>
+
+
+<!-- end of Main section -->
+
+ <!-- Footer -->
+ <footer class="text-center text-white" style="background-color: #71c4c8;">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+    <!-- Section: CTA -->
+    <section class="">
+        <p class="d-flex justify-content-center align-items-center">
+        <span class="me-3">Register for free</span>
+        </p>
+    </section>
+    <!-- Section: CTA -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2024 Copyright:
+    <a class="text-white" href="#">deepak.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+<!-- Footer -->
+
+
+<script>
+    function toggleMenu() {
+        var menu = document.getElementById("menu");
+        menu.classList.toggle("active");
+    }
+
+    function closeMenu() {
+        var menu = document.getElementById("menu");
+        menu.classList.remove("active");
+    }
+</script>
+
+</body>
+</html>

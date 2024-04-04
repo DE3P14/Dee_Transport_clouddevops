@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Search Results</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'search_form' %}">Search</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="bus-list">
+            {% if matching_buses %}
+                <ul>
+                {% for bus in matching_buses %}
+                    <li class="bus-item">
+                        <img src="{% static 'images/bus1.jpeg' %}" alt="Logo">
+                        <div class="bus-info">
+                            <p><strong>bus available:</strong> {{ bus.is_available }}</p>
+                            <h2>{{ bus.name }}</h2>
+                            <p><strong>Bus No:</strong> {{ bus.id }}</p>
+                            <p><strong>From:</strong> {{ bus.departure_city }} - <strong>To:</strong> {{ bus.arrival_city }}</p>
+                            <p><strong>Departure Date:</strong> {{ bus.departure_time }}</p>
+                            <p><strong>Departure Time:</strong> {{ bus.depart_time }}</p>
+                            <p><strong>available seats:</strong> {{ bus.seats }}</p>
+                            
+                        </div>
+                        <a href="{% url 'save_ticket' %}" class="book-ticket"><button> Book Ticket</a></button>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No buses available</p>
+            {% endif %}
+        </section>
+    </main>
+    <footer>
+        &copy; 2024 Travel Agency. All rights reserved.
+    </footer>
+</body>
+</html>
+
+

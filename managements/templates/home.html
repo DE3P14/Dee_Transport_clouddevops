@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCTransporation</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/1hb6b8g5g0n3lOLo4y4gx5nU4w2f4Z+d5GDK6bj" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.rtl.min.css.map">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.rtl.min.css.map">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/1hb6b8g5g0n3lOLo4y4gx5nU4w2f4Z+d5GDK6bj" crossorigin="anonymous">
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznB1U5Y0Uc6Y3R3G66I3J7Raci7ZfWP3Oe5TK9Yjt5V7F9/3bYb5v5B3N4" crossorigin="anonymous"></script>
+
+    
+</head>
+<body>
+<div id="loader"> </div>
+    <!-- <h1>DCTransporation Welcomes you</h1> -->
+
+    <script src="{% static 'js/script.js' %}"></script>
+
+    <header>
+        <!-- Header content -->
+    </header>
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Container wrapper -->
+    <div class="container">
+      <!-- Navbar brand -->
+      <a class="navbar-brand me-2" href="#">
+        DCTransporation
+      </a>
+  
+      <!-- Toggle button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link font-weight-bold" href="{% url 'all_buses' %}">View Buses available</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link font-weight-bold" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link font-weight-bold" href="{% url 'register' %}">Register</a>
+          </li> -->
+          <!-- Add more links as needed -->
+        </ul>
+        <!-- Left links -->
+  
+        <div class="d-flex align-items-center">
+          <a class="btn btn-info px-3 me-2" href="{% url 'login' %}">Login</a>
+          <a class="btn btn-infoy me-3" href="{% url 'register' %}">Sign up for free</a>
+          <!-- Add more buttons as needed -->
+        </div>
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+
+
+  <!-- main section -->
+
+  <main>
+    <main>
+        <div class="container">
+            <img class="d-block w-100" src="{% static 'images/bus1.png' %}" alt="Wallpaper">
+        </div>
+    </main>
+</main>
+
+
+<!-- end of Main section -->
+
+
+        <!-- Footer -->
+    <footer class="text-center text-white" style="background-color: #71c4c8;">
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+        <!-- Section: CTA -->
+        <section class="">
+            <p class="d-flex justify-content-center align-items-center">
+            <span class="me-3">Register for free</span>
+            </p>
+        </section>
+        <!-- Section: CTA -->
+        </div>
+        <!-- Grid container -->
+    
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2024 Copyright:
+        <a class="text-white" href="#">deepak.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    
+
+
+    <script>
+    
+
+    </script>
+</body>
+</html>
