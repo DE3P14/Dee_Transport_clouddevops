@@ -17,9 +17,10 @@ phases:
     - virtualenv venv
     - source venv/bin/activate
     - pip install django djangorestframework pylint
-    - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-    - unzip sonar-scanner-cli-4.6.2.2472-linux.zip
-    - export PATH=$PATH:$(pwd)/sonar-scanner-4.6.2.2472-linux/bin
+    - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+    - unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+    - export Java_HOME= $(pwd)/sonar-scanner-5.0.1.3006-linux/jre/bin/java
+    - export PATH=$PATH:$(pwd)/sonar-scanner-5.0.1.3006-linux/bin
     - sonar-scanner --version
 
   pre_build:
