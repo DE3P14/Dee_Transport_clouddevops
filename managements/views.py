@@ -63,6 +63,10 @@ def delete_bus(request, pk):
 
 
 
+def bus_detail(request, pk):
+    bus = get_object_or_404(Bus, pk=pk)
+    return render(request, 'bus_detail.html', {'bus': bus})
+
 
 
 #register
