@@ -36,8 +36,7 @@ phases:
     commands:
     # - python manage.py test
     # SonarQube Analysis
-    - >
-      sonar-scanner -Dsonar.projectKey=$project_key -Dsonar.organization=$Organization_key -Dsonar.sources=. -Dsonar.host.url=$HOST -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint_report.txt #magic___^_^___line
+    - sonar-scanner -Dsonar.projectKey=$project_key -Dsonar.organization=$Organization_key -Dsonar.sources=. -Dsonar.host.url=$HOST -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint_report.txt #magic___^_^___line
 artifacts:
   files:
   - '**/*'
