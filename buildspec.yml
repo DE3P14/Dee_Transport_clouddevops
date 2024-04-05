@@ -2,47 +2,37 @@ version: 0.2
 
 env:
   variables:
-    SONAR_PROJECT_KEY: "DE3P14_Dee_Transport_clouddevops"
-    SONAR_QUBE_URL: "http://sonarcloud.io"
-    SONARCLOUD_TOKEN: "eea5996cf401092a90def01df27804a760cdddb1"
-    PYLINT_THRESHOLD: "8.0" # Define a minimum acceptable pylint score
+  # Project: "DE3P14_Dee_Transport_clouddevops"
+  # HOST: "http://sonarcloud.io"
+  # SONARCLOUD_TOKEN: "eea5996cf401092a90def01df27804a760cdddb1"
+  # PYLINT_THRESHOLD: "8.0" # Define a minimum acceptable pylint score
 
 phases:
   install:
-    runtime-versions:
-      python: 3.11
-      java: corretto21
     commands:
-    - echo Installing dependencies...
-    - pip install --upgrade pip
-    - pip install -r requirements.txt
-    - pip install pylint
-    - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-latest.zip"
-    - unzip -q /tmp/sonar-scanner.zip -d /opt
-    - export PATH=$PATH:/opt/sonar-scanner-cli-latest/bin
-    - sudo yum install -y bc
+    - dnf update -y
+    - dnf install -y python3-pip
+    # Install virtualenv to isolate the build environment
+    - pip3 install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip install django djangorestframework pylint
+    - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+    - unzip sonar-scanner-cli-4.6.2.2472-linux.zip
+    - export PATH=$PATH:$(pwd)/sonar-scanner-4.6.2.2472-linux/bin
 
   pre_build:
     commands:
-    - echo Running Pylint...
+    - pip install -r requirements.txt
 
   build:
     commands:
-    - pylint busapp managements --exit-zero > pylint-report.txt
-    - |
-      PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint-report.txt)
-      echo "Pylint score: $PYLINT_SCORE"
-      if (( $(echo "$PYLINT_SCORE < $PYLINT_THRESHOLD" | bc -l) )); then
-        echo "Pylint score below threshold of $PYLINT_THRESHOLD"
-        exit 1
-      fi
-    # - echo Running SonarCloud analysis...
-# - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt
-
+    - python manage.py test
+    - pylint --exit-zero --output-format=text busapp managements > pylint_report.txt
+    # Use Docker to run SonarScanner
+    - ""
+#       docker run  --rm  -e SONAR_HOST_URL="$HOST"  -e SONAR_LOGIN="$LOGIN"  -v $(pwd):/usr/src  sonarsource/sonar-scanner-cli  -Dsonar.projectKey=$Project  -Dsonar.organization=$Organization  -Dsonar.sources=.  -Dsonar.python.pylint.reportPaths=pylint_report.txt #magic___^_^___line
+# # You may define artifacts as needed
 artifacts:
   files:
-  - pylint-report.txt
-
-cache:
-  paths:
-  - '*/target/**/*'
+  - '**/*'
