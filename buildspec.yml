@@ -5,16 +5,22 @@ env:
     SONAR_PROJECT_KEY: "DE3P14_Dee_Transport_clouddevops"
     SONAR_QUBE_URL: "http://sonarcloud.io"
     SONARCLOUD_TOKEN: "eea5996cf401092a90def01df27804a760cdddb1"
+
 phases:
   install:
     runtime-versions:
-      python: 3.10
+      python: 3.11
       java: corretto17
     commands:
     # Install dependencies
     - echo Installing dependencies...
+    - pip install --upgrade pip
     - pip install -r requirements.txt
-    - pip install pylint sonar-scanner
+    - pip install pylint
+    - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip"
+    - unzip -q /tmp/sonar-scanner.zip -d /opt
+    - export PATH=$PATH:/opt/sonar-scanner-4.7.0.2747-linux/bin
+    - sonar-scanner --version # Verify sonar-scanner installation
 
   pre_build:
     commands:
@@ -26,7 +32,7 @@ phases:
     commands:
     # SonarCloud analysis
     - >
-      sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt # Include any additional SonarCloud parameters here #magic___^_^___line
+      sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt # Additional SonarCloud parameters can be added here #magic___^_^___line
 artifacts:
   files:
   - pylint-report.txt
