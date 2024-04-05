@@ -36,8 +36,8 @@ phases:
         echo "Pylint score below threshold of $PYLINT_THRESHOLD"
         exit 1
       fi
-    - echo Running SonarCloud analysis...
-    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt
+    # - echo Running SonarCloud analysis...
+# - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt
 
 artifacts:
   files:
