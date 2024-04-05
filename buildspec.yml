@@ -20,6 +20,7 @@ phases:
     - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip"
     - unzip -q /tmp/sonar-scanner.zip -d /opt
     - export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin
+    - sudo yum install -y bc
 
   pre_build:
     commands:
