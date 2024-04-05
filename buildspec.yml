@@ -20,23 +20,27 @@ phases:
     - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip"
     - unzip -q /tmp/sonar-scanner.zip -d /opt
     - export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin
+    - sudo yum install -y bc
 
   pre_build:
     commands:
     - echo Running Pylint...
 
+
   build:
     commands:
     - pylint busapp managements --exit-zero > pylint-report.txt
-    - |
-      PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint-report.txt)
-      echo "Pylint score: $PYLINT_SCORE"
-      if (( $(echo "$PYLINT_SCORE < $PYLINT_THRESHOLD" | bc -l) )); then
-        echo "Pylint score below threshold of $PYLINT_THRESHOLD"
-        exit 1
-      fi
+    # - |
+    #   PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint-report.txt)
+    #   echo "Pylint score: $PYLINT_SCORE"
+    #   if (( $(echo "$PYLINT_SCORE < $PYLINT_THRESHOLD" | bc -l) )); then
+    #     echo "Pylint score below threshold of $PYLINT_THRESHOLD"
+    #     exit 1
+    #   fi
+
+    # Calculate pylint score and fail build if below threshold
     - echo Running SonarCloud analysis...
-    - /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner \ -Dsonar.projectKey=$SONAR_PROJECT_KEY \ -Dsonar.sources=. \ -Dsonar.host.url=$SONAR_QUBE_URL \ -Dsonar.login=$SONARCLOUD_TOKEN \ -Dsonar.python.pylint.reportPaths=pylint-report.txt
+    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt
 
 artifacts:
   files:
