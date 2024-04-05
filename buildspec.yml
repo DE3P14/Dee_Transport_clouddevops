@@ -2,9 +2,10 @@ version: 0.2
 
 env:
   variables:
-    SONAR_QUBE_PROJECT: "de3p14"
+    SONAR_QUBE_PROJECT: "DE3P14_Dee_Transport_clouddevops"
     SONAR_QUBE_URL: "http://sonarcloud.io"
-    SONAR_QUBE_KEY: "DE3P14_Dee_Transport_clouddevops"
+    SONAR_QUBE_KEY: "eea5996cf401092a90def01df27804a760cdddb1"
+
     CODEBUILD_BUILD_SUCCEEDING: 1
 
 phases:
