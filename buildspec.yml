@@ -17,9 +17,9 @@ phases:
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - pip install pylint
-    - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip"
+    - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip"
     - unzip -q /tmp/sonar-scanner.zip -d /opt
-    - export PATH=$PATH:/opt/sonar-scanner-4.7.0.2747-linux/bin
+    - export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin
 
   pre_build:
     commands:
