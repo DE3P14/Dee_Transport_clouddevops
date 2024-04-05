@@ -2,10 +2,6 @@ version: 0.2
 
 env:
   variables:
-    Organization_key: "de3p14"
-    project_key: "devsecopsexplore"
-    HOST: "http://sonarcloud.io"
-    SONARCLOUD_TOKEN: "d699c3082be36f4d390366febfbf2dc6be55cd91"
     PYLINT_THRESHOLD: "8.0" # Define a minimum acceptable pylint score
 
 phases:
@@ -41,7 +37,11 @@ phases:
     commands:
     # - python manage.py test
     # SonarQube Analysis
+    - sonar-scanner -Dsonar.projectKey=devsecopsexplore -Dsonar.organization=de3p14 -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint_report.txt
+
     - sonar-scanner -Dsonar.projectKey=$project_key -Dsonar.organization=$Organization_key -Dsonar.sources=. -Dsonar.host.url=$HOST -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint_report.txt #magic___^_^___line
+
+
 artifacts:
   files:
   - '**/*'
