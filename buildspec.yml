@@ -17,6 +17,7 @@ phases:
     - yum -q install -y jq
     - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip"
     - unzip -q /tmp/sonar-scanner.zip -d /tmp
+    - yum list available java-*-openjdk-devel
     - yum install -y java-17-openjdk-devel # This is for environments that use YUM
     - update-alternatives --set java /usr/lib/jvm/java-17-openjdk-*/bin/java
     - java -version # To confirm the correct Java version is being used
