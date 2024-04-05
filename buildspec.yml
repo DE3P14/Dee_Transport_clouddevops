@@ -32,7 +32,16 @@ phases:
     # - echo "Code scan completed on date"
     # - if [ "$CODEBUILD_BUILD_SUCCEEDING" -eq 0 ]; then exit 1; fi
     # Add pylint check for your Python code
-    - pylint --exit-zero  busapp/ managements/ >  pylint_report.txt
+    - pylint --exit-zero  . >  pylint_report.txt
     - echo "Pylint score:"
     - grep "rated at" pylint_report.txt # Extracts the line showing pylint score
+
+  build:
+    commands:
+    - echo "Build started on `date`"
+    - echo "Build completed on `date`"
+
+  Artifacts:
+    files:
+    - '**/*'
 
