@@ -20,7 +20,7 @@ phases:
     - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip"
     - unzip -q /tmp/sonar-scanner.zip -d /opt
     - export PATH=$PATH:/opt/sonar-scanner-4.7.0.2747-linux/bin
-    - sonar-scanner --version # Verify sonar-scanner installation
+    # - sonar-scanner --version # Verify sonar-scanner installation
 
   pre_build:
     commands:
@@ -31,8 +31,8 @@ phases:
   build:
     commands:
     # SonarCloud analysis
-    - >
-      sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt # Additional SonarCloud parameters can be added here #magic___^_^___line
+    # - >
+    #   sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt # Additional SonarCloud parameters can be added here #magic___^_^___line
 artifacts:
   files:
   - pylint-report.txt
