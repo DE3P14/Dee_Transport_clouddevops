@@ -2,17 +2,17 @@ version: 0.2
 
 env:
   variables:
-  # Project: "DE3P14_Dee_Transport_clouddevops"
-  # HOST: "http://sonarcloud.io"
-  # SONARCLOUD_TOKEN: "eea5996cf401092a90def01df27804a760cdddb1"
-  # PYLINT_THRESHOLD: "8.0" # Define a minimum acceptable pylint score
+    Organization_key: "de3p14"
+    project_key: "devsecopsexplore"
+    HOST: "http://sonarcloud.io"
+    SONARCLOUD_TOKEN: "d699c3082be36f4d390366febfbf2dc6be55cd91"
+    PYLINT_THRESHOLD: "8.0" # Define a minimum acceptable pylint score
 
 phases:
   install:
     commands:
-    - dnf update -y
-    - dnf install -y python3-pip
-    # Install virtualenv to isolate the build environment
+    - yum update -y
+    - yum install -y python3-pip
     - pip3 install virtualenv
     - virtualenv venv
     - source venv/bin/activate
@@ -24,15 +24,14 @@ phases:
   pre_build:
     commands:
     - pip install -r requirements.txt
+    - pylint --exit-zero --output-format=text busapp managements > pylint_report.txt
 
   build:
     commands:
     - python manage.py test
-    - pylint --exit-zero --output-format=text busapp managements > pylint_report.txt
-    # Use Docker to run SonarScanner
-    - ""
-#       docker run  --rm  -e SONAR_HOST_URL="$HOST"  -e SONAR_LOGIN="$LOGIN"  -v $(pwd):/usr/src  sonarsource/sonar-scanner-cli  -Dsonar.projectKey=$Project  -Dsonar.organization=$Organization  -Dsonar.sources=.  -Dsonar.python.pylint.reportPaths=pylint_report.txt #magic___^_^___line
-# # You may define artifacts as needed
+    # SonarQube Analysis
+    - >
+      sonar-scanner -Dsonar.projectKey=$project_key -Dsonar.organization=$Organization_key -Dsonar.sources=. -Dsonar.host.url=$HOST -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint_report.txt #magic___^_^___line
 artifacts:
   files:
   - '**/*'
