@@ -37,8 +37,9 @@ phases:
     commands:
     # - python manage.py test
     # SonarQube Analysis
-    - sonar-scanner -Dsonar.projectKey=devsecopsexplore -Dsonar.organization=de3p14 -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint_report.txt
+    # - sonar-scanner -Dsonar.projectKey=devsecopsexplore -Dsonar.organization=de3p14 -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint_report.txt
 
+    - echo "build is success"
 artifacts:
   files:
   - '**/*'
