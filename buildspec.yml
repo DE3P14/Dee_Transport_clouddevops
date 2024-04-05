@@ -5,6 +5,7 @@ env:
     SONAR_PROJECT_KEY: "DE3P14_Dee_Transport_clouddevops"
     SONAR_QUBE_URL: "http://sonarcloud.io"
     SONARCLOUD_TOKEN: "eea5996cf401092a90def01df27804a760cdddb1"
+    PYLINT_THRESHOLD: "8.0" # Define a minimum acceptable pylint score
 
 phases:
   install:
@@ -12,7 +13,6 @@ phases:
       python: 3.11
       java: corretto17
     commands:
-    # Install dependencies
     - echo Installing dependencies...
     - pip install --upgrade pip
     - pip install -r requirements.txt
@@ -20,19 +20,28 @@ phases:
     - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip"
     - unzip -q /tmp/sonar-scanner.zip -d /opt
     - export PATH=$PATH:/opt/sonar-scanner-4.7.0.2747-linux/bin
-    # - sonar-scanner --version # Verify sonar-scanner installation
 
   pre_build:
     commands:
-    # Pylint code quality check
     - echo Running Pylint...
-    - pylint --exit-zero busapp managements > pylint-report.txt
+
 
   build:
     commands:
-    # SonarCloud analysis
-    # - >
-    #   sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt # Additional SonarCloud parameters can be added here #magic___^_^___line
+    - pylint busapp managements --exit-zero > pylint-report.txt
+    - |
+      PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint-report.txt)
+      echo "Pylint score: $PYLINT_SCORE"
+      if (( $(echo "$PYLINT_SCORE < $PYLINT_THRESHOLD" | bc -l) )); then
+        echo "Pylint score below threshold of $PYLINT_THRESHOLD"
+        exit 1
+      fi
+
+    # Calculate pylint score and fail build if below threshold
+# - echo Running SonarCloud analysis...
+# - >
+#   sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt
+
 artifacts:
   files:
   - pylint-report.txt
