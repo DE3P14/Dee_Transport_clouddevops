@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,8 @@
 </head>
 <body>
     <div id="loader"></div>
+    
+    <script src="{% static 'js/script.js' %}"></script>
 
     <header>
         <!-- Header content -->
@@ -24,7 +27,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand me-2" href="#">
+            <a class="navbar-brand me-2" href=" {% url 'homepage' %}">
                 DCTransporation
             </a>
 
