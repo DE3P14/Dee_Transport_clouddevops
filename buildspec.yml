@@ -14,7 +14,7 @@ phases:
     - pip3 install -q awscli --upgrade --user
     - pip3 install boto3
     - pip3 install pylint # Install pylint for Python linting
-    - yum -q install -y jq
+    - apt -q install -y jq
     - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip"
     - unzip -q /tmp/sonar-scanner.zip -d /tmp
     # - yum list available java-*-openjdk-devel
