@@ -11,15 +11,15 @@ phases:
   install:
     runtime-versions:
       python: 3.11
-      java: corretto17
+      java: openjdk17
     commands:
     - echo Installing dependencies...
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - pip install pylint
-    - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip"
+    - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-latest.zip"
     - unzip -q /tmp/sonar-scanner.zip -d /opt
-    - export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin
+    - export PATH=$PATH:/opt/sonar-scanner-cli-latest/bin
 
   pre_build:
     commands:
@@ -36,7 +36,7 @@ phases:
         exit 1
       fi
     - echo Running SonarCloud analysis...
-    - /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner \ -Dsonar.projectKey=$SONAR_PROJECT_KEY \ -Dsonar.sources=. \ -Dsonar.host.url=$SONAR_QUBE_URL \ -Dsonar.login=$SONARCLOUD_TOKEN \ -Dsonar.python.pylint.reportPaths=pylint-report.txt
+    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt
 
 artifacts:
   files:
