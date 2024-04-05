@@ -19,8 +19,11 @@ phases:
     - pip install django djangorestframework pylint
     - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
     - unzip sonar-scanner-cli-5.0.1.3006-linux.zip
-    - export Java_HOME= $(pwd)/sonar-scanner-5.0.1.3006-linux/jre/bin/java
+    - ls -lrt
+    - sonar-scanner --version
+    - export JAVA_HOME= $(pwd)/sonar-scanner-5.0.1.3006-linux/jre/bin/java
     - export PATH=$PATH:$(pwd)/sonar-scanner-5.0.1.3006-linux/bin
+    - java -version
     - sonar-scanner --version
 
   pre_build:
