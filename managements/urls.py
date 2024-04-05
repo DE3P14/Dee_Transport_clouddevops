@@ -26,6 +26,5 @@ urlpatterns = [
     path('delete_bus/<int:pk>/', views.delete_bus, name='delete_bus'),
     path('buses/create/', views.create_bus, name='create_bus'),
     path('bus/<int:pk>/', views.bus_detail, name='bus_detail'),
-    path('search-results/', views.search_results, name='search_results')
 
 ]
