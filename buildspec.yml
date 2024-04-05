@@ -2,46 +2,35 @@ version: 0.2
 
 env:
   variables:
-    SONAR_QUBE_PROJECT: "DE3P14_Dee_Transport_clouddevops"
+    SONAR_PROJECT_KEY: "DE3P14_Dee_Transport_clouddevops"
     SONAR_QUBE_URL: "http://sonarcloud.io"
-    SONAR_QUBE_KEY: "eea5996cf401092a90def01df27804a760cdddb1"
-
-    CODEBUILD_BUILD_SUCCEEDING: 1
-
+    SONARCLOUD_TOKEN: "eea5996cf401092a90def01df27804a760cdddb1"
 phases:
   install:
+    runtime-versions:
+      python: 3.10
+      java: corretto17
     commands:
-    - pip3 install -q awscli --upgrade --user
-    - pip3 install boto3
-    - pip3 install pylint # Install pylint for Python linting
-    - yum -q install -y jq
-    - wget -qO /tmp/sonar-scanner.zip "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip"
-    - unzip -q /tmp/sonar-scanner.zip -d /tmp
-    # - yum list available java-*-openjdk-devel
-    # - yum install -y java-17-openjdk-devel # This is for environments that use YUM
-    # - update-alternatives --set java /usr/lib/jvm/java-17-openjdk-*/bin/java
-    - java -version # To confirm the correct Java version is being used
+    # Install dependencies
+    - echo Installing dependencies...
+    - pip install -r requirements.txt
+    - pip install pylint sonar-scanner
 
   pre_build:
     commands:
-    # - echo "Start code scan..."
-    # - ./../../../../../../../tmp/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner -Dsonar.projectKey=$SONAR_QUBE_PROJECT -Dsonar.sources=. -Dsonar.host.url=$SONAR_QUBE_URL -Dsonar.login=$SONAR_QUBE_KEY
-    # - sleep 7
-    # - "curl -s -u $SONAR_QUBE_KEY: $SONAR_QUBE_URL/api/qualitygates/project_status?projectKey=$SONAR_QUBE_PROJECT > /tmp/result.json"
-    # - if [ $(jq -r '.projectStatus.status' /tmp/result.json) = ERROR ]; then CODEBUILD_BUILD_SUCCEEDING=0; fi
-    # - echo "Code scan completed on date"
-    # - if [ "$CODEBUILD_BUILD_SUCCEEDING" -eq 0 ]; then exit 1; fi
-    # Add pylint check for your Python code
-    - pylint --exit-zero  . >  pylint_report.txt
-    - echo "Pylint score:"
-    - grep "rated at" pylint_report.txt # Extracts the line showing pylint score
+    # Pylint code quality check
+    - echo Running Pylint...
+    - pylint --exit-zero busapp managements > pylint-report.txt
 
   build:
     commands:
-    - echo "Build started on `date`"
-    - echo "Build completed on `date`"
-
-Artifacts:
+    # SonarCloud analysis
+    - >
+      sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN -Dsonar.python.pylint.reportPaths=pylint-report.txt # Include any additional SonarCloud parameters here #magic___^_^___line
+artifacts:
   files:
-  - '**/*'
+  - pylint-report.txt
 
+cache:
+  paths:
+  - '*/target/**/*'
