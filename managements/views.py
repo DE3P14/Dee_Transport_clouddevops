@@ -6,7 +6,14 @@ from django.contrib.auth.models import User
 from .models import Route, Bus, UserProfile,  Schedule, Ticket
 from .forms import BusForm
 from django.views.decorators.http import require_GET
-
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Bus
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login as auth_login  # Alias the imported login function
+from .forms import LoginForm
+from .models import PAY
 
 def homepage(request):
     return render(request, 'h.html')
@@ -85,17 +92,19 @@ def register(request):
 
  
 
-def login(request): 
+def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            User = authenticate(request, username=username, password=password)
-            if User is not None:
-                return redirect('home')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)  # Use the aliased auth_login here
+                return redirect('home')  # Ensure this points to your homepage URL name
             else:
-                return render(request, 'login.html', {'form': form, 'error_message': 'Invalid username or password.'})
+                # It's better to use a generic error message for security
+                return render(request, 'login.html', {'form': form, 'error_message': 'Incorrect login credentials.'})
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
@@ -103,6 +112,26 @@ def login(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
+
+
+def login_view(request):  # Consider renaming to avoid confusion with `login` method
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)  # Use 'user' instead of 'User'
+            if user is not None:
+                login(request, user)  # This line logs the user in
+                return redirect('home')  # Ensure 'home' is the correct name of your homepage urlpattern
+            else:
+                # It's more secure not to tell whether the username or password was incorrect
+                return render(request, 'login.html', {'form': form, 'error_message': 'Invalid login credentials.'})
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
 
 
 
@@ -140,7 +169,7 @@ def search_form(request):
     return render(request, 'search_form.html', {'form': form})
 
 
-
+@login_required
 def booking(request, id):
     schedule = Schedule.objects.all()
     if request.method == 'POST':
@@ -152,6 +181,10 @@ def booking(request, id):
     else:
         form = BookingForm()
     return render(request, 'booking_form.html', {'form': form, 'schedule': schedule})
+
+
+
+
 
 
 
@@ -201,37 +234,43 @@ def book_ticket(request, schedule_id):
     return render(request, 'book_ticket.html', {'form': form, 'schedule': schedule})
 
 
+
+
+
+
+
+@login_required
 def save_ticket(request):
     if request.method == 'POST':
         schedule_id = request.POST.get('schedule')
-        seat_no = request.POST.get('seat_no')
-        passenger_name = request.POST.get('passenger_name')
-        passenger_age = request.POST.get('passengerAge')
-        gender = request.POST.get('gender')
-        pay = request.POST.get('pay')  # Fixing the line to get 'pay'
-        schedule = Schedule.objects.get(id=schedule_id)
-        user = request.user
-        bus_id = request.POST.get('bus')  # Getting the ID of the selected bus
-        bus = Bus.objects.get(id=bus_id)  # Retrieving the Bus object
-        # Create a new Ticket object and save it to the database
+        schedule = get_object_or_404(Schedule, pk=schedule_id)
+        
+        bus_id = request.POST.get('bus')
+        bus = get_object_or_404(Bus, id=bus_id)
+        
+        # Assuming the rest of the form data is valid and complete
+        # Create the Ticket object here with the POST data received
         ticket = Ticket.objects.create(
             schedule=schedule,
-            seat_no=seat_no,
-            passenger_name=passenger_name,
-            passengerAge=passenger_age,
-            gender=gender,
-            user=user,  # Assign the authenticated user
-            pay=pay,
-            bus=bus  # Assign the retrieved Bus object
+            seat_no=request.POST.get('seat_no'),
+            passenger_name=request.POST.get('passenger_name'),
+            passengerAge=request.POST.get('passengerAge'),
+            gender=request.POST.get('gender'),
+            user=request.user,
+            pay=request.POST.get('pay'),
+            bus=bus
         )
-        # Redirect the user to the ticket confirmation page
+        # Redirect to the ticket confirmation page after successful POST request handling
         return redirect('ticket_confirmation')
-    
-    # Fetch schedules to display in the form
-    schedules = Schedule.objects.all()
-    pays = Ticket.objects.all()
-    buses = Bus.objects.all()
-    return render(request, 'ticket_form.html', {'schedules': schedules, 'pays': pays,  'buses': buses})
+    else:
+        # Define 'schedules' before using it to render the template for GET requests
+        schedules = Schedule.objects.all()
+        buses = Bus.objects.all()
+        pays = PAY  # Ensure this is defined and accessible as well
+        
+        # Use the defined 'schedules' (and other context variables) here
+        return render(request, 'ticket_form.html', {'schedules': schedules, 'buses': buses, 'pays': pays})
+
 
 
 def ticket_confirmation(request):

@@ -110,7 +110,7 @@ body {
             <li><a href="#" onclick="closeMenu()">Help</a></li>
             <li><a href="#" onclick="closeMenu()">Profile</a></li>
             <li><a href="#" onclick="closeMenu()">Settings</a></li> -->
-            <li><a href="{% url 'login' %}" onclick="closeMenu()">Login</a></li>
+            {% comment %} <li><a href="{% url 'login' %}" onclick="closeMenu()">Login</a></li> {% endcomment %}
             <li><a href="{% url 'logout' %}" onclick="closeMenu()">Sign Out</a></li>
             <!-- <li><a href="#" onclick="closeMenu()">Feedback</a></li>
             <li><a href="#" onclick="closeMenu()">About us</a></li> -->

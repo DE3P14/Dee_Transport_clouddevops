@@ -9,7 +9,7 @@ urlpatterns = [
                
     path('',views.home, name="homepage"),
     path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
+    path('accounts/login/', views.login, name='login'),
     path('logout/', logout_view, name='logout'),
     path('home/', views.homepage, name='home'),
     path('search_routes/', views.search_routes, name='search_routes'),
@@ -26,5 +26,6 @@ urlpatterns = [
     path('delete_bus/<int:pk>/', views.delete_bus, name='delete_bus'),
     path('buses/create/', views.create_bus, name='create_bus'),
     path('bus/<int:pk>/', views.bus_detail, name='bus_detail'),
+
 
 ]

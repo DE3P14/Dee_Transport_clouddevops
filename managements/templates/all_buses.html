@@ -93,6 +93,7 @@
                         {% endfor %}
                         <button type="submit" class="btn btn-primary">Add Bus</button>
                     </form>
+                    
                 </div>
             </div>
         </div>
@@ -132,6 +133,7 @@
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
                             </form>
+                            <a href="{% url 'search_form'%}" class="btn btn-primary btn-sm">Book Ticket</a>
                         </td>
                     </tr>
                 {% empty %}
@@ -144,6 +146,17 @@
     </div>
 </div>
 
+<script>
+    function toggleMenu() {
+        var menu = document.getElementById("menu");
+        menu.classList.toggle("active");
+    }
+
+    function closeMenu() {
+        var menu = document.getElementById("menu");
+        menu.classList.remove("active");
+    }
+</script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
 
 </body>

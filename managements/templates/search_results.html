@@ -5,47 +5,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
 </head>
 <body>
-    <header>
-        <h1>Search Results</h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'search_form' %}">Search</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section class="bus-list">
-            {% if matching_buses %}
+    <section class="hero is-dark">
+        <div class="hero-body">
+            <p class="title">
+                Search Results
+            </p>
+            <nav class="breadcrumb" aria-label="breadcrumbs">
                 <ul>
-                {% for bus in matching_buses %}
-                    <li class="bus-item">
-                        <img src="{% static 'images/bus1.jpeg' %}" alt="Logo">
-                        <div class="bus-info">
-                            <p><strong>bus available:</strong> {{ bus.is_available }}</p>
-                            <h2>{{ bus.name }}</h2>
-                            <p><strong>Bus No:</strong> {{ bus.id }}</p>
-                            <p><strong>From:</strong> {{ bus.departure_city }} - <strong>To:</strong> {{ bus.arrival_city }}</p>
-                            <p><strong>Departure Date:</strong> {{ bus.departure_time }}</p>
-                            <p><strong>Departure Time:</strong> {{ bus.depart_time }}</p>
-                            <p><strong>available seats:</strong> {{ bus.seats }}</p>
-                            
-                        </div>
-                        <a href="{% url 'save_ticket' %}" class="book-ticket"><button> Book Ticket</a></button>
-                    </li>
-                {% endfor %}
+                    <li><a href="{% url 'search_form' %}" class="has-text-white">Search Again</a></li>
                 </ul>
+            </nav>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            {% if matching_buses %}
+                <div class="columns is-multiline">
+                    {% for bus in matching_buses %}
+                        <div class="column is-4">
+                            <div class="card">
+                                <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img src="{% static 'images/bus1.jpeg' %}" alt="Bus image">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-content">
+                                            <p class="title is-4">{{ bus.name }}</p>
+                                            <p class="subtitle is-6"><strong>Bus No:</strong> {{ bus.id }}</p>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="content">
+                                        <p><strong>Available:</strong> {{ bus.is_available }}</p>
+                                        <p><strong>From:</strong> {{ bus.departure_city }} - <strong>To:</strong> {{ bus.arrival_city }}</p>
+                                        <p><strong>Departure Date:</strong> {{ bus.departure_time }}</p>
+                                        <p><strong>Departure Time:</strong> {{ bus.depart_time }}</p>
+                                        <p><strong>Available Seats:</strong> {{ bus.seats }}</p>
+                                        <a href="{% url 'save_ticket' %}" class="button is-link">Book Ticket</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             {% else %}
-                <p>No buses available</p>
+                <div class="notification is-danger">
+                    <p>No buses available</p>
+                </div>
             {% endif %}
-        </section>
-    </main>
-    <footer>
-        &copy; 2024 Travel Agency. All rights reserved.
+        </div>
+    </section>
+    
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            &copy; 2024 DCTransporation. All rights reserved.
+        </div>
     </footer>
 </body>
 </html>
-
-
