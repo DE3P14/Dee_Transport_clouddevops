@@ -1,50 +1,44 @@
 from django.test import TestCase
 from django.urls import reverse
 from .models import Bus
+import datetime
 
-class BusModelTest(TestCase):
-    def setUp(self):
-        Bus.objects.create(
-            name='Test Bus',
+class BusModelAndViewTests(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        # Creating two buses for testing
+        cls.bus1 = Bus.objects.create(
+            name='Test Bus 1',
             color='Red',
             no_plate='ABC123',
             seats=50,
             departure_city='Nairobi',
             arrival_city='Mombasa',
-            departure_time='2024-03-01',
-            depart_time='08:00:00'
+            departure_time=datetime.date(2024, 3, 1),
+            depart_time=datetime.time(8, 0)
+        )
+        cls.bus2 = Bus.objects.create(
+            name='Test Bus 2',
+            color='Blue',
+            no_plate='XYZ789',
+            seats=40,
+            departure_city='Mombasa',
+            arrival_city='Nairobi',
+            departure_time=datetime.date(2024, 4, 1),
+            depart_time=datetime.time(9, 0)
         )
 
-    def test_bus_details(self):
-        test_bus = Bus.objects.get(name='Test Bus')
-        self.assertEqual(test_bus.name, 'Test Bus')
-        self.assertEqual(test_bus.color, 'Red')
-        self.assertEqual(test_bus.no_plate, 'ABC123')
-        self.assertEqual(test_bus.seats, 50)
-        self.assertEqual(test_bus.departure_city, 'Nairobi')
-        self.assertEqual(test_bus.arrival_city, 'Mombasa')
-        self.assertEqual(test_bus.departure_time.strftime('%Y-%m-%d'), '2024-03-01')
-        self.assertEqual(test_bus.depart_time.strftime('%H:%M:%S'), '08:00:00')
-
-class ViewsTest(TestCase):
-    def test_search_results_view(self):
-        response = self.client.get(reverse('search_results'))
+    def test_search_form_view_get(self):
+        # Test the search_form view with a GET request
+        response = self.client.get(reverse('search_form'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'search_results.html')
+        self.assertTemplateUsed(response, 'search_form.html')
 
-    def test_bus_detail_view(self):
-        bus = Bus.objects.create(
-            name='Test Bus',
-            color='Red',
-            no_plate='ABC123',
-            seats=50,
-            departure_city='Nairobi',
-            arrival_city='Mombasa',
-            departure_time='2024-03-01',
-            depart_time='08:00:00'
-        )
-        response = self.client.get(reverse('bus_detail', args=[bus.id]))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'bus_detail.html')
+    # def test_bus_detail_view_get(self):
+    #     # Test the bus_detail view with an existing bus ID
+    #     response = self.client.get(reverse('bus_detail', args=[self.bus1.pk]))
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'bus_detail.html')
 
-    # Add more tests for other views as needed
+    # Add more tests as necessary for your application

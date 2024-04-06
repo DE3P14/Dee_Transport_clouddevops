@@ -5,7 +5,7 @@ from .forms import RegistrationForm, LoginForm,  SearchForm, BookingForm, Ticket
 from django.contrib.auth.models import User
 from .models import Route, Bus, UserProfile,  Schedule, Ticket
 from .forms import BusForm
-
+from django.views.decorators.http import require_GET
 
 
 def homepage(request):
@@ -62,6 +62,10 @@ def delete_bus(request, pk):
 
 
 
+@require_GET
+def bus_detail(request, pk):
+    bus = get_object_or_404(Bus, pk=pk)
+    return render(request, 'bus_detail.html', {'bus': bus})
 
 
 
