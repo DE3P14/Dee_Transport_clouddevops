@@ -1,2 +1,2 @@
-This is a Clone Instance developed, after NCI IT team Deleted original machine.
+This is Transport application which facilitates the passengers to book tickets
 I have used Postgres as Backend
