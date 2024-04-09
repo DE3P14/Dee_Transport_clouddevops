@@ -1,1 +1,1 @@
-I have made some changes in the Settings.py files
+I have made some changes in the Settings.py files. Test
